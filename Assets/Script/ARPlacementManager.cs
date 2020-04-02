@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class ARPlacementManager : MonoBehaviour
 {
+
+    private ARRaycastManager _arRaycastManager;
+
     public GameObject placementObject;
     public GameObject placementIndicator;
     public Camera arCamera;
@@ -16,6 +21,11 @@ public class ARPlacementManager : MonoBehaviour
     Ray myRay;
     RaycastHit hit;
 
+    private void Awake()
+    {
+        _arRaycastManager = GetComponent<ARRaycastManager>();
+    }
+
     void Update()
     {
         //UpdatePlacementPose();
@@ -25,12 +35,12 @@ public class ARPlacementManager : MonoBehaviour
         if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             calculateRealPosition();
-            ContinuePlaceObject();
+            PlaceObject();
         }
 
     }
 
-    public void ContinuePlaceObject()
+    public void PlaceObject()
     {
         //Create Clone Object ----- try  to  change -----
         GameObject placeObject = Instantiate(placementObject, PlacementPose, PlacementRotaion);
