@@ -12,10 +12,11 @@ public class ARPlacementManager : MonoBehaviour
     public GameObject placementObject;
     public GameObject placementIndicator;
     public Camera arCamera;
+
     private Vector3 PlacementPose;
     private Quaternion PlacementRotaion;
-    private bool placementPoseIsValid = false;
     private List<Vector3> markedPosition = new List<Vector3>();
+    private bool placementPoseIsValid = false;
 
 
     Ray myRay;
@@ -34,8 +35,18 @@ public class ARPlacementManager : MonoBehaviour
         markedPosition.Add(PlacementPose);
         if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            calculateRealPosition();
-            PlaceObject();
+            if (Physics.Raycast(myRay, out hit, 100))
+            {
+                if (hit.transform.name == placementObject.name)
+                {
+                    placementIndicator.transform.SetPositionAndRotation(PlacementPose, PlacementRotaion);
+                }
+            }
+            else
+            {
+                calculateRealPosition();
+                PlaceObject();
+            }
         }
 
     }
