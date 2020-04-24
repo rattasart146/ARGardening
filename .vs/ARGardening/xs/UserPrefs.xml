@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{28698A75-7B98-7660-465B-7989F90A4D6E}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/Manipulation/PlacementMultiPrefabsWithManipulation.cs">
+    <Files>
+      <File FileName="Assets/Script/ARPlacementManager.cs" Line="91" Column="6" />
+      <File FileName="Assets/Script/AREventManager.cs" Line="18" Column="61" />
+      <File FileName="Assets/Script/ARObjectManipulation.cs" Line="15" Column="6" />
+      <File FileName="Assets/Script/ARShapeBuilder.cs" Line="11" Column="5" />
+      <File FileName="Assets/Script/ShapeManager.cs" Line="62" Column="78" />
+      <File FileName="Assets/Script/Gameplay.cs" Line="26" Column="9" />
+      <File FileName="Assets/Script/Manipulation/PlacementMultiPrefabsWithManipulation.cs" Line="33" Column="47" NotebookId="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="6418f682-e56d-417a-b3e3-992856defcc0" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

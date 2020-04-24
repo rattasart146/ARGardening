@@ -15,11 +15,10 @@ public class AREventManager : MonoBehaviour
     void Start()
     {
         arShapeBuilder = GetComponent<ARShapeBuilder>();
+        arPlacementManager = GetComponent<ARPlacementManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
 
         startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
-        startButtonText = GameObject.Find("TogglePlaceButtonText").GetComponent<Text>();
-
         startButton = GameObject.Find("StartButton").GetComponent<Button>();
     }
 
@@ -29,8 +28,8 @@ public class AREventManager : MonoBehaviour
         {
             arShapeBuilder.enabled = false;
             arPlacementManager.enabled = true;
-            SetAllPlanesActive(false);
             startButton.gameObject.SetActive(false);
+            SetAllPlanesActive(false);
         }
         else
         {
