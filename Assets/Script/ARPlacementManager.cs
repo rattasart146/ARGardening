@@ -45,10 +45,10 @@ public class ARPlacementManager : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
-                prefabRay = arCamera.ScreenPointToRay(touchPosition);
+                prefabRay = arCamera.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(prefabRay, out prefabHit))
                 {
-                    if (prefabHit.transform.name != "AreaMesh")
+                    if (prefabHit.collider.tag == "Decoration")
                     {
                         lastSelectedPrefab = prefabHit.transform.gameObject;
 
@@ -60,12 +60,6 @@ public class ARPlacementManager : MonoBehaviour
                                 objectSelection = placementObject == lastSelectedPrefab;
                             }
                         }
-
-                        if (objectSelection)
-                        {
-                            lastSelectedPrefab.transform.position = prefabHit.point;
-                            lastSelectedPrefab.transform.rotation = Quaternion.identity;
-                        }
                     }
                 }
             }
@@ -73,6 +67,13 @@ public class ARPlacementManager : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 objectSelection = false;
+            }
+
+
+            if (objectSelection)
+            {
+                lastSelectedPrefab.transform.position = prefabHit.point;
+                lastSelectedPrefab.transform.rotation = Quaternion.identity;
             }
         }
 
@@ -98,7 +99,7 @@ public class ARPlacementManager : MonoBehaviour
         calculateRealPosition();
         var Index = placedPrefabs.Count;
         GameObject placeObject = Instantiate(placementPrefab, PlacementPose, PlacementRotaion);
-        placeObject.transform.name = $"{placeObject.transform.name} {Index}";
+        placeObject.transform.name = $"{placementPrefab.name} {Index}";
         placedPrefabs.Add(placeObject);
     }
 
