@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.UI;
 
 public class ARPlacementManager : MonoBehaviour
 {
 
     private ARRaycastManager _arRaycastManager;
 
-    public GameObject placementObject;
+    public GameObject placementPrefab;
     public GameObject placementIndicator;
     public Camera arCamera;
 
     private Vector3 PlacementPose;
     private Quaternion PlacementRotaion;
-    private List<Vector3> markedPosition = new List<Vector3>();
-    private bool placementPoseIsValid = false;
+    private List<GameObject> placedPrefabs = new List<GameObject>();
+    private Vector2 touchPosition = default;
+    private GameObject lastSelectedPrefab;
+    private bool objectSelection;
+    private Ray indicatorRay, prefabRay;
+    private RaycastHit indicatorHit, prefabHit;
 
+    Text debugText;
 
-    Ray myRay;
-    RaycastHit hit;
 
     private void Awake()
     {
         _arRaycastManager = GetComponent<ARRaycastManager>();
+        debugText = GameObject.Find("DebugText").GetComponent<Text>();
     }
 
     void Update()
@@ -32,61 +37,96 @@ public class ARPlacementManager : MonoBehaviour
         //UpdatePlacementPose();
         UpdatePlacementIndicator();
 
-        markedPosition.Add(PlacementPose);
-        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0)
         {
-            if (Physics.Raycast(myRay, out hit, 100))
+            Touch touch = Input.GetTouch(0);
+
+            touchPosition = touch.position;
+
+            if (touch.phase == TouchPhase.Began)
             {
-                if (hit.transform.name == placementObject.name)
+                prefabRay = arCamera.ScreenPointToRay(touchPosition);
+                if (Physics.Raycast(prefabRay, out prefabHit))
                 {
-                    placementIndicator.transform.SetPositionAndRotation(PlacementPose, PlacementRotaion);
+                    if (prefabHit.transform.name != "AreaMesh")
+                    {
+                        lastSelectedPrefab = prefabHit.transform.gameObject;
+
+                        debugText.text = lastSelectedPrefab.transform.name + " was Selected";
+                        if (lastSelectedPrefab != null)
+                        {
+                            foreach (GameObject placementObject in placedPrefabs)
+                            {
+                                objectSelection = placementObject == lastSelectedPrefab;
+                            }
+                        }
+
+                        if (objectSelection)
+                        {
+                            lastSelectedPrefab.transform.position = prefabHit.point;
+                            lastSelectedPrefab.transform.rotation = Quaternion.identity;
+                        }
+                    }
                 }
             }
-            else
+
+            if (touch.phase == TouchPhase.Ended)
             {
-                calculateRealPosition();
-                PlaceObject();
+                objectSelection = false;
             }
         }
 
+    }
+
+    public void ChangePrefabSelection(string name)
+    {
+        GameObject loadedGameObject = Resources.Load<GameObject>($"Prefabs/{name}");
+        if (loadedGameObject != null)
+        {
+            placementPrefab = loadedGameObject;
+            debugText.text = name + " was Active";
+        }
+        else
+        {
+            Debug.Log($"Unable to find a game object with name {name}");
+        }
     }
 
     public void PlaceObject()
     {
         //Create Clone Object ----- try  to  change -----
-        GameObject placeObject = Instantiate(placementObject, PlacementPose, PlacementRotaion);
+        calculateRealPosition();
+        var Index = placedPrefabs.Count;
+        GameObject placeObject = Instantiate(placementPrefab, PlacementPose, PlacementRotaion);
+        placeObject.transform.name = $"{placeObject.transform.name} {Index}";
+        placedPrefabs.Add(placeObject);
     }
 
     private void UpdatePlacementIndicator()
     {
 
-        myRay = arCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        indicatorRay = arCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         var cameraForward = arCamera.transform.forward;
         var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
 
 
-        if (Physics.Raycast(myRay, out hit, 100))
+        if (Physics.Raycast(indicatorRay, out indicatorHit, 100))
         {
-            if ((hit.transform.name == "ShapeMesh") || (hit.transform == placementObject))
+            if ((indicatorHit.transform.name == "AreaMesh") || (indicatorHit.transform == placementPrefab))
             {
-                PlacementPose = hit.point;
+                PlacementPose = indicatorHit.point;
                 PlacementRotaion = Quaternion.LookRotation(cameraBearing);
 
                 placementIndicator.SetActive(true);
                 placementIndicator.transform.SetPositionAndRotation(PlacementPose, PlacementRotaion);
 
-                placementPoseIsValid = true;
             }
-        }
-        else
-        {
-            placementPoseIsValid = false;
         }
     }
 
     private void calculateRealPosition()
     {
-        var halfObjectSizePosition = PlacementPose.y + (placementObject.GetComponent<Renderer>().bounds.size.y / 2);
+        var halfObjectSizePosition = PlacementPose.y + (placementPrefab.GetComponent<Renderer>().bounds.size.y / 2);
         PlacementPose = new Vector3(PlacementPose.x, halfObjectSizePosition, PlacementPose.z);
     }
 }

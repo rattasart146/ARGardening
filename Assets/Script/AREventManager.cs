@@ -9,10 +9,11 @@ public class AREventManager : MonoBehaviour
     private ARShapeBuilder arShapeBuilder;
     private ARPlacementManager arPlacementManager;
     private ARPlaneManager arPlaneManager;
-    Button startButton;
-    Text startButtonText;
+    Button startButton, placeButton;
+    GameObject treePanel;
+    Text startButtonText, debugText;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         arShapeBuilder = GetComponent<ARShapeBuilder>();
         arPlacementManager = GetComponent<ARPlacementManager>();
@@ -20,6 +21,10 @@ public class AREventManager : MonoBehaviour
 
         startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
         startButton = GameObject.Find("StartButton").GetComponent<Button>();
+        placeButton = GameObject.Find("PlaceButton").GetComponent<Button>();
+        treePanel = GameObject.Find("TreePanel");
+        placeButton.gameObject.SetActive(false);
+        treePanel.gameObject.SetActive(false);
     }
 
     public void StartButton(string text)
@@ -29,6 +34,8 @@ public class AREventManager : MonoBehaviour
             arShapeBuilder.enabled = false;
             arPlacementManager.enabled = true;
             startButton.gameObject.SetActive(false);
+            placeButton.gameObject.SetActive(true);
+            treePanel.gameObject.SetActive(true);
             SetAllPlanesActive(false);
         }
         else
