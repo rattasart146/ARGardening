@@ -1,22 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
 
-public class ARObjectManipulation : MonoBehaviour
+public class testHit : MonoBehaviour
 {
-    private ARRaycastManager _arRaycastManager;
-
     public GameObject placementPrefab;
     public GameObject baseIndicator;
-    public Camera arCamera;
 
     private GameObject[] placedPrefabs;
     private Vector2 touchPosition = default;
     private GameObject lastSelectedPrefab;
-    private bool objectSelection;
+    private bool objectSelection = false;
     private Ray placePrefabRay, selectPrefabRay;
     private RaycastHit placePrefabHit, selectPrefabHit;
 
@@ -24,10 +19,9 @@ public class ARObjectManipulation : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        _arRaycastManager = GetComponent<ARRaycastManager>();
-        placeButton = GameObject.Find("PlaceButton").GetComponent<Button>();
         doneButton = GameObject.Find("DoneButton").GetComponent<Button>();
         doneButton.onClick.AddListener(doneState);
+        doneButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,21 +29,14 @@ public class ARObjectManipulation : MonoBehaviour
     {
         placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
 
-        if (Input.touchCount > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            Touch touch = Input.GetTouch(0);
-
-            touchPosition = touch.position;
-            placePrefabRay = arCamera.ScreenPointToRay(touch.position);
-
             if (objectSelection)
             {
-                placeButton.gameObject.SetActive(false);
-                doneButton.gameObject.SetActive(true);
-                if (touch.phase == TouchPhase.Began)
+                selectPrefabRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(selectPrefabRay, out selectPrefabHit))
                 {
-                    selectPrefabRay = arCamera.ScreenPointToRay(touchPosition);
-                    if (Physics.Raycast(selectPrefabRay, out selectPrefabHit))
+                    if (selectPrefabHit.transform.name == "Plane")
                     {
                         lastSelectedPrefab.transform.position = selectPrefabHit.point;
                         lastSelectedPrefab.transform.rotation = Quaternion.identity;
@@ -58,18 +45,23 @@ public class ARObjectManipulation : MonoBehaviour
             }
             else
             {
+                placePrefabRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                 {
-                    if (placePrefabHit.collider.tag == "Decoration")
+                    if (placePrefabHit.collider.transform.parent.tag == "Decoration")
                     {
-                        lastSelectedPrefab = placePrefabHit.transform.gameObject;
-
+                        lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
                         //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
                         if (lastSelectedPrefab != null)
                         {
                             foreach (GameObject placementObject in placedPrefabs)
                             {
                                 objectSelection = placementObject == lastSelectedPrefab;
+                                if (objectSelection)
+                                {
+                                    Debug.Log(lastSelectedPrefab.name);
+                                    doneButton.gameObject.SetActive(true);
+                                }
                             }
                         }
                     }
@@ -81,7 +73,6 @@ public class ARObjectManipulation : MonoBehaviour
 
     private void doneState()
     {
-        placeButton.gameObject.SetActive(true);
         doneButton.gameObject.SetActive(false);
         objectSelection = false;
     }
