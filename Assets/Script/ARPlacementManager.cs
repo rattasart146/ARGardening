@@ -88,7 +88,6 @@ public class ARPlacementManager : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void ChangePrefabSelection(string name)
