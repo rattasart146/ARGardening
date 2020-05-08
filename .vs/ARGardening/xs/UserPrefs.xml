@@ -4,7 +4,7 @@
       <File FileName="Assets/Script/ARPlacementManager.cs" Line="49" Column="60" />
       <File FileName="Assets/Script/ARObjectManipulation.cs" />
       <File FileName="Assets/Script/ShapeManager.cs" />
-      <File FileName="Assets/Script/testHit.cs" Line="36" Column="3" NotebookId="1" />
+      <File FileName="Assets/Script/testHit.cs" Line="21" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

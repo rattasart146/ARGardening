@@ -49,19 +49,22 @@ public class ARPlacementManager : MonoBehaviour
                 placePrefabRay = arCamera.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                 {
-                    if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                    if (placePrefabHit.transform.parent != null)
                     {
-                        lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
-
-                        //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
-                        if (lastSelectedPrefab != null)
+                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
                         {
-                            foreach (GameObject placementObject in placedPrefabs)
+                            lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
+
+                            //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
+                            if (lastSelectedPrefab != null)
                             {
-                                objectSelection = placementObject == lastSelectedPrefab;
-                                if (objectSelection)
+                                foreach (GameObject placementObject in placedPrefabs)
                                 {
-                                    debugText.text = lastSelectedPrefab.name + " Selected";
+                                    objectSelection = placementObject == lastSelectedPrefab;
+                                    if (objectSelection)
+                                    {
+                                        debugText.text = lastSelectedPrefab.name + " Selected";
+                                    }
                                 }
                             }
                         }
@@ -84,7 +87,6 @@ public class ARPlacementManager : MonoBehaviour
                 if (objectSelection)
                 {
                     lastSelectedPrefab.transform.position = selectPrefabHit.point;
-                    lastSelectedPrefab.transform.rotation = Quaternion.identity;
                 }
             }
         }
