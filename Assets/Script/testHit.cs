@@ -9,26 +9,19 @@ public class testHit : MonoBehaviour
     public GameObject baseIndicator;
 
     private GameObject[] placedPrefabs;
-    private Vector3 baseIndicatorPos;
-    private Vector2 touchPosition = default;
     private GameObject lastSelectedPrefab;
     private bool objectSelection = false;
+    private bool selectionState = false;
     private Ray placePrefabRay, selectPrefabRay;
     private RaycastHit placePrefabHit, selectPrefabHit;
+    private Vector2 touchPosition = default;
     private Vector3 selectingPos = new Vector3(0, 0.5f, 0);
     private Vector3 selectTarget = new Vector3(0, 0, 0);
     private Vector3 placeTarget =  new Vector3(0, 0, 0);
     private string doneStateCheck = "default";
-    private float previousValue;
 
-    public bool Rotate;
-    bool rotating;
-    Vector2 startVector;
-    float rotGestureWidth;
-    float rotAngleMinimum;
- 
-    Button placeButton, doneButton;
-    Slider rotateSlider;
+    Button doneButton;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,30 +38,16 @@ public class testHit : MonoBehaviour
 
         if (Input.touchCount == 1)
         {
-            Touch fisrtTouch = Input.GetTouch(0);
+            Touch singleTouch = Input.GetTouch(0);
             Debug.Log("Touched");
-            if (objectSelection)
+            touchPosition = singleTouch.position;
+            if (singleTouch.phase == TouchPhase.Began)
             {
-                selectPrefabRay = Camera.main.ScreenPointToRay(fisrtTouch.position);
-                if (Physics.Raycast(selectPrefabRay, out selectPrefabHit))
+                placePrefabRay = Camera.main.ScreenPointToRay(singleTouch.position);
+
+                if (doneStateCheck == "default")
                 {
-                    if (selectPrefabHit.transform.name == "Plane")
-                    {
-                        baseIndicator.transform.position = selectPrefabHit.point;
-                        lastSelectedPrefab.transform.position = selectPrefabHit.point + new Vector3(0, selectTarget.y, 0);
-                        selectTarget = lastSelectedPrefab.transform.position;
-                        placeTarget = lastSelectedPrefab.transform.position - selectingPos;
-                        Debug.Log(selectTarget);
-                        Debug.Log(placeTarget);
-                    }
-                }
-            }
-            else
-            {
-                placePrefabRay = Camera.main.ScreenPointToRay(fisrtTouch.position);
-                if (Physics.Raycast(placePrefabRay, out placePrefabHit))
-                {
-                    if (placePrefabHit.transform.parent != null)
+                    if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                     {
                         if (placePrefabHit.collider.transform.parent.tag == "Decoration")
                         {
@@ -78,7 +57,8 @@ public class testHit : MonoBehaviour
                             {
                                 foreach (GameObject placementObject in placedPrefabs)
                                 {
-                                    objectSelection = placementObject == lastSelectedPrefab;
+                                    objectSelection = placementObject == lastSelectedPrefab; //check object was hit
+                                    Debug.Log("object selection : " + objectSelection);
                                     if (objectSelection)
                                     {
                                         //do anything when object was selected
@@ -90,6 +70,46 @@ public class testHit : MonoBehaviour
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+                if(doneStateCheck == "Active")
+                {
+                    if (Physics.Raycast(placePrefabRay, out placePrefabHit))
+                    {
+                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                        {
+                            var activeSelectedPrefab = placePrefabHit.transform.parent.gameObject;
+                            //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
+                            if (lastSelectedPrefab != null)
+                            {
+                                objectSelection = activeSelectedPrefab == lastSelectedPrefab; //check object was hit
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (singleTouch.phase == TouchPhase.Ended)
+            {
+                objectSelection = false;
+            }
+
+
+            if (doneStateCheck == "Active")
+            {
+                if (objectSelection)
+                {
+                    selectPrefabRay = Camera.main.ScreenPointToRay(singleTouch.position);
+                    if (Physics.Raycast(selectPrefabRay, out selectPrefabHit))
+                    {
+                        if (selectPrefabHit.collider.name == "Plane")
+                        {
+                            baseIndicator.transform.position = selectPrefabHit.point;
+                            lastSelectedPrefab.transform.position = selectPrefabHit.point + selectingPos; //auto increase y pose
+                            selectTarget = lastSelectedPrefab.transform.position;
+                            placeTarget = lastSelectedPrefab.transform.position - selectingPos;
+                            //Debug.Log(selectPrefabHit.point + new Vector3(0, selectTarget.y, 0));
                         }
                     }
                 }
@@ -119,9 +139,9 @@ public class testHit : MonoBehaviour
                     var v2 = touch1.position - touch0.position;
                     var newAngle = Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
                     var realAngle = new Vector3(0, lastSelectedPrefab.transform.rotation.y - newAngle, 0);
-                    Debug.Log("newAngle : " + newAngle);
-                    Debug.Log("lastPrefab : " + lastSelectedPrefab.transform.rotation.y);
-                    Debug.Log("realAngle : " + realAngle.y);
+                    //Debug.Log("newAngle : " + newAngle);
+                    //Debug.Log("lastPrefab : " + lastSelectedPrefab.transform.rotation.y);
+                    //Debug.Log("realAngle : " + realAngle.y);
 
                     lastSelectedPrefab.transform.localEulerAngles = realAngle;
                     baseIndicator.transform.localEulerAngles = realAngle;

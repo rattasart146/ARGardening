@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{28698A75-7B98-7660-465B-7989F90A4D6E}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/testHit.cs">
     <Files>
-      <File FileName="Assets/Script/ARPlacementManager.cs" Line="49" Column="60" />
-      <File FileName="Assets/Script/ARObjectManipulation.cs" />
+      <File FileName="Assets/Script/ARPlacementManager.cs" Line="109" Column="78" />
+      <File FileName="Assets/Script/ARObjectManipulation.cs" Line="1" Column="1" />
       <File FileName="Assets/Script/ShapeManager.cs" />
-      <File FileName="Assets/Script/testHit.cs" Line="21" Column="24" />
+      <File FileName="Assets/Script/testHit.cs" Line="109" Column="105" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
