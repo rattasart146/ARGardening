@@ -11,14 +11,13 @@ public class testHit : MonoBehaviour
     private GameObject[] placedPrefabs;
     private GameObject lastSelectedPrefab;
     private bool objectSelection = false;
-    private bool selectionState = false;
     private Ray placePrefabRay, selectPrefabRay;
     private RaycastHit placePrefabHit, selectPrefabHit;
-    private Vector2 touchPosition = default;
-    private Vector3 selectingPos = new Vector3(0, 0.5f, 0);
+    private Vector3 selectingPos = new Vector3(0, 1f, 0);
     private Vector3 selectTarget = new Vector3(0, 0, 0);
     private Vector3 placeTarget =  new Vector3(0, 0, 0);
     private string doneStateCheck = "default";
+    private float speed = 7;
 
     Button doneButton;
 
@@ -40,7 +39,6 @@ public class testHit : MonoBehaviour
         {
             Touch singleTouch = Input.GetTouch(0);
             Debug.Log("Touched");
-            touchPosition = singleTouch.position;
             if (singleTouch.phase == TouchPhase.Began)
             {
                 placePrefabRay = Camera.main.ScreenPointToRay(singleTouch.position);
@@ -119,8 +117,8 @@ public class testHit : MonoBehaviour
         if (doneStateCheck == "Start")
         {
             doneButton.gameObject.SetActive(true);
-
-            lastSelectedPrefab.transform.position = Vector3.MoveTowards(lastSelectedPrefab.transform.position, selectTarget, Time.deltaTime * 7);
+            Debug.Log("<");
+            lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, selectTarget, Time.deltaTime * speed);
             if (lastSelectedPrefab.transform.position == selectTarget)
             {
                 baseIndicator.gameObject.SetActive(true);
@@ -150,7 +148,8 @@ public class testHit : MonoBehaviour
         }
         if (doneStateCheck == "End")
         {
-            lastSelectedPrefab.transform.position = Vector3.MoveTowards(lastSelectedPrefab.transform.position, placeTarget, Time.deltaTime * 7);
+            Debug.Log(">");
+            lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, placeTarget, Time.deltaTime * speed);
             if(lastSelectedPrefab.transform.position == placeTarget)
             {
                 doneStateCheck = "default";

@@ -27,7 +27,7 @@ public class ARObjectManipulation : MonoBehaviour
         _arRaycastManager = GetComponent<ARRaycastManager>();
         placeButton = GameObject.Find("PlaceButton").GetComponent<Button>();
         doneButton = GameObject.Find("DoneButton").GetComponent<Button>();
-        doneButton.onClick.AddListener(doneState);
+        //doneButton.onClick.AddListener(doneState);
     }
 
     // Update is called once per frame
