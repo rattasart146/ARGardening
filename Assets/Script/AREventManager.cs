@@ -6,33 +6,69 @@ using UnityEngine.XR.ARFoundation;
 
 public class AREventManager : MonoBehaviour
 {
+    private ARPlaneManager arPlaneManager;
     private ARShapeBuilder arShapeBuilder;
     private ARPlacementManager arPlacementManager;
-    Button startButton, placeButton, doneButton;
+    private string stateChecker = "Start";
+    Button completeMarkButton, placeButton, doneButton;
     Text startButtonText, debugText;
+    GameObject markerPanel, planeDetectPanel, placingPanel;
     // Start is called before the first frame update
     void Awake()
     {
+        arPlaneManager = GetComponent<ARPlaneManager>();
         arShapeBuilder = GetComponent<ARShapeBuilder>();
         arPlacementManager = GetComponent<ARPlacementManager>();
-        startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
-        startButton = GameObject.Find("StartButton").GetComponent<Button>();
-   
+        //startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
+        completeMarkButton = GameObject.Find("CompleteMarkButton").GetComponent<Button>();
+
+
+        markerPanel = GameObject.Find("MarkerPanel");
+        placingPanel = GameObject.Find("PlacingPanel");
+        planeDetectPanel = GameObject.Find("PlaneDetectPanel");
+        markerPanel.SetActive(false);
+        placingPanel.SetActive(false);
     }
 
-    public void StartButton(string text)
+    private void Update()
     {
-        if (startButtonText.text == "Finish")
+        if (stateChecker == "Start")
         {
-            arShapeBuilder.enabled = false;
-            arPlacementManager.enabled = true;
-            startButton.gameObject.SetActive(false);
-            
+            planeDetectPanel.SetActive(true);
+            if (arPlaneManager.trackables.count > 0)
+            {
+                stateChecker = "Marking";
+            }
         }
         else
         {
-            startButtonText.text = text;
-            arShapeBuilder.enabled = true;
+            foreach (var plane in arPlaneManager.trackables)
+                plane.gameObject.SetActive(false);
         }
+
+        if (stateChecker == "Marking")
+        {
+            planeDetectPanel.SetActive(false);
+            placingPanel.SetActive(false);
+            markerPanel.SetActive(true);
+
+            arShapeBuilder.enabled = true;
+            arPlacementManager.enabled = false;
+        }
+        if (stateChecker == "Placing")
+        {
+            planeDetectPanel.SetActive(false);
+            markerPanel.SetActive(false);
+            placingPanel.SetActive(true);
+
+            arShapeBuilder.enabled = false;
+            arPlacementManager.enabled = true;
+        }
+        
+    }
+
+    public void processChecker(string text)
+    {
+        stateChecker = text;
     }
 }

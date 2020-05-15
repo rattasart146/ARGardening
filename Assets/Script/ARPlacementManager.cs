@@ -34,10 +34,6 @@ public class ARPlacementManager : MonoBehaviour
     //Ui
     Text debugText;
     Button placeButton, doneButton;
-    RectTransform treePanel;
-    Vector3 treePanelPos;
-    Vector3 hideTreePanelPos = new Vector3(0, -1140, 0);
-
 
     private void Awake()
     {
@@ -47,9 +43,7 @@ public class ARPlacementManager : MonoBehaviour
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
         placeButton = GameObject.Find("PlaceButton").GetComponent<Button>();
         doneButton = GameObject.Find("DoneButton").GetComponent<Button>();
-        treePanel = GameObject.Find("TreePanel").GetComponent<RectTransform>();
 
-        treePanel.gameObject.SetActive(false);
         placeButton.gameObject.SetActive(false);
         doneButton.gameObject.SetActive(false);
         baseIndicator.gameObject.SetActive(false);
@@ -58,26 +52,23 @@ public class ARPlacementManager : MonoBehaviour
     }
     private void Start()
     {
-        treePanel.gameObject.SetActive(true);
         placeButton.gameObject.SetActive(true);
-        treePanelPos = treePanel.anchoredPosition;
-        treePanel.anchoredPosition = hideTreePanelPos;
     }
     void Update()
     {
         SetAllPlanesActive(false);
         //UpdatePlacementPose();
+        placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
+
         if (doneStateCheck == "default")
         {
+            placementIndicator.SetActive(true);
             UpdatePlacementIndicator();
-            treePanel.anchoredPosition = Vector3.Lerp(treePanel.anchoredPosition, hideTreePanelPos, Time.deltaTime * speed);
         }
         else
         {
-            treePanel.anchoredPosition = Vector3.Lerp(treePanel.anchoredPosition, treePanelPos, Time.deltaTime * speed);
+            placementIndicator.SetActive(false);
         }
-        debugText.text = treePanelPos + " was placed";
-        placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
 
         if (Input.touchCount == 1)
         {
@@ -110,7 +101,7 @@ public class ARPlacementManager : MonoBehaviour
                                         placeTarget = lastSelectedPrefab.transform.position;
                                         debugText.text = "selectTarget : " + selectTarget;
                                         baseIndicator.transform.position = lastSelectedPrefab.transform.position;
-                                        doneStateCheck = "Start";
+                                        doneStateCheck = "Active";
                                         break;
                                     }
                                 }
@@ -150,11 +141,13 @@ public class ARPlacementManager : MonoBehaviour
                     {
                         if (selectPrefabHit.collider.name == "AreaMesh")
                         {
+                            debugText.text = "happen1";
                             baseIndicator.transform.position = selectPrefabHit.point;
                             lastSelectedPrefab.transform.position = selectPrefabHit.point + selectingPos; //auto increase y pose
                             selectTarget = lastSelectedPrefab.transform.position;
                             placeTarget = lastSelectedPrefab.transform.position - selectingPos;
                             //Debug.Log(selectPrefabHit.point + new Vector3(0, selectTarget.y, 0));
+                            debugText.text = "happen2";
                         }
                     }
                 }
