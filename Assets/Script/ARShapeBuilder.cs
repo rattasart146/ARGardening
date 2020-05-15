@@ -30,6 +30,10 @@ public class ARShapeBuilder : MonoBehaviour
     private RaycastHit mpIndicatorHit;
     private Quaternion markerPointRotaion;
     private Pose markerPointPose;
+    private bool markSelection = false;
+    private float fixY;
+    private Vector2 touchPosition2 = default;
+    private GameObject lastSelectedObject;
 
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
@@ -40,6 +44,7 @@ public class ARShapeBuilder : MonoBehaviour
         calAreaText = GameObject.Find("CalAreaText").GetComponent<Text>();
         _arRaycastManager = GetComponent<ARRaycastManager>();
         lineRender = GetComponent<LineRenderer>();
+
         Debug.Log("Index :" + shapes.Count);
         CreateNewShape();
         markerPointIndicator.SetActive(false);
@@ -53,6 +58,45 @@ public class ARShapeBuilder : MonoBehaviour
         if (areaCal.Count > 2)
         {
             SuperficieIrregularPolygon();
+        }
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            touchPosition2 = touch.position;
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                Ray ray = arCamera.ScreenPointToRay(touch.position);
+                RaycastHit hitObject;
+                if (Physics.Raycast(ray, out hitObject))
+                {
+                    lastSelectedObject = hitObject.transform.parent.gameObject;
+                    if (lastSelectedObject != null)
+                    {
+                        foreach (GameObject placementObject in areaCal)
+                        {
+                            markSelection = placementObject == lastSelectedObject;
+                        }
+                    }
+                }
+            }
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                markSelection = false;
+            }
+        }
+
+        if (_arRaycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
+        {
+            Pose hitPose = hits[0].pose;
+            if (markSelection)
+            {
+                lastSelectedObject.transform.position = hitPose.position;
+                lastSelectedObject.transform.rotation = hitPose.rotation;
+            }
         }
     }
 
@@ -92,13 +136,13 @@ public class ARShapeBuilder : MonoBehaviour
         {
             shapeToDraw.points.Add(new Vector3(hit.position.x, shapeToDraw.points[0].y, hit.position.z));
             Debug.Log("V3 point :" + new Vector3(hit.position.x, shapeToDraw.points[0].y, hit.position.z));
+            fixY = shapeToDraw.points[0].y;
         }
 
         GameObject markedClone = Instantiate(originalObject, shapeToDraw.points[Index], Quaternion.identity);
         areaCal.Add(markedClone);
         markedClone.transform.parent = parentObject.transform;
         markedClone.name = "MarkedPoint" + Index;
-
         lineRender.positionCount = Index + 1;
         lineRender.SetPosition(Index, shapeToDraw.points[Index]);
 
@@ -146,7 +190,7 @@ public class ARShapeBuilder : MonoBehaviour
         }
         temp *= 0.5f;
         temp = Mathf.Abs(temp);
-        calAreaText.text = ("Area : " + temp);
+        calAreaText.text = ($"ขนาดพื้นที่ทั้งหมด {temp} ตร.ม.");
 
     }
 

@@ -10,6 +10,7 @@ public class ARPlacementManager : MonoBehaviour
 
     private ARRaycastManager _arRaycastManager;
     private ARPlaneManager arPlaneManager;
+    private AREventManager arEventManager;
 
     public GameObject placementPrefab;
     public GameObject placementIndicator;
@@ -29,31 +30,21 @@ public class ARPlacementManager : MonoBehaviour
     private Vector3 placeTarget = new Vector3(0, 0, 0);
     private GameObject loadedGameObject;
     private string doneStateCheck = "default";
-    private float speed = 1;
+    private float speed = 15;
 
     //Ui
     Text debugText;
-    Button placeButton, doneButton;
 
     private void Awake()
     {
         _arRaycastManager = GetComponent<ARRaycastManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
-
+        arEventManager = GetComponent<AREventManager>();
         debugText = GameObject.Find("DebugText").GetComponent<Text>();
-        placeButton = GameObject.Find("PlaceButton").GetComponent<Button>();
-        doneButton = GameObject.Find("DoneButton").GetComponent<Button>();
 
-        placeButton.gameObject.SetActive(false);
-        doneButton.gameObject.SetActive(false);
         baseIndicator.gameObject.SetActive(false);
+    }
 
-        doneButton.onClick.AddListener(doneState);
-    }
-    private void Start()
-    {
-        placeButton.gameObject.SetActive(true);
-    }
     void Update()
     {
         SetAllPlanesActive(false);
@@ -62,6 +53,7 @@ public class ARPlacementManager : MonoBehaviour
 
         if (doneStateCheck == "default")
         {
+            arEventManager.placingPanel.SetActive(true);
             placementIndicator.SetActive(true);
             UpdatePlacementIndicator();
         }
@@ -101,7 +93,7 @@ public class ARPlacementManager : MonoBehaviour
                                         placeTarget = lastSelectedPrefab.transform.position;
                                         debugText.text = "selectTarget : " + selectTarget;
                                         baseIndicator.transform.position = lastSelectedPrefab.transform.position;
-                                        doneStateCheck = "Active";
+                                        doneStateCheck = "Start";
                                         break;
                                     }
                                 }
@@ -156,17 +148,17 @@ public class ARPlacementManager : MonoBehaviour
 
         if (doneStateCheck == "Start")
         {
-            doneButton.gameObject.SetActive(true);
-            placeButton.gameObject.SetActive(false);
             lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, selectTarget, Time.deltaTime * speed);
             if (lastSelectedPrefab.transform.position == selectTarget)
             {
-                baseIndicator.gameObject.SetActive(true);
                 doneStateCheck = "Active";
             }
         }
         if (doneStateCheck == "Active")
         {
+            baseIndicator.gameObject.SetActive(true);
+            arEventManager.manipulationPanel.SetActive(true);
+            arEventManager.placingPanel.SetActive(false);
             if (Input.touchCount == 2)
             {
                 Touch touch0 = Input.GetTouch(0);
@@ -192,6 +184,8 @@ public class ARPlacementManager : MonoBehaviour
             if (lastSelectedPrefab.transform.position == placeTarget)
             {
                 doneStateCheck = "default";
+                arEventManager.manipulationPanel.SetActive(false);
+                baseIndicator.gameObject.SetActive(false);
             }
         }
     }
@@ -247,11 +241,8 @@ public class ARPlacementManager : MonoBehaviour
         PlacementPose = new Vector3(PlacementPose.x, halfObjectSizePosition, PlacementPose.z);
     }
 
-    private void doneState()
+    public void doneState()
     {
-        doneButton.gameObject.SetActive(false);
-        baseIndicator.gameObject.SetActive(false);
-        placeButton.gameObject.SetActive(true);
         objectSelection = false;
         Debug.Log(objectSelection);
         doneStateCheck = "End";

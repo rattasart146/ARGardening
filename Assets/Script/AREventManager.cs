@@ -12,7 +12,7 @@ public class AREventManager : MonoBehaviour
     private string stateChecker = "Start";
     Button completeMarkButton, placeButton, doneButton;
     Text startButtonText, debugText;
-    GameObject markerPanel, planeDetectPanel, placingPanel;
+    public GameObject markerPanel, planeDetectPanel, placingPanel, manipulationPanel;
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,9 +25,13 @@ public class AREventManager : MonoBehaviour
 
         markerPanel = GameObject.Find("MarkerPanel");
         placingPanel = GameObject.Find("PlacingPanel");
+        manipulationPanel = GameObject.Find("ManipulationPanel");
         planeDetectPanel = GameObject.Find("PlaneDetectPanel");
         markerPanel.SetActive(false);
         placingPanel.SetActive(false);
+        manipulationPanel.SetActive(false);
+        arShapeBuilder.markerPointIndicator.SetActive(false);
+        arPlacementManager.placementIndicator.SetActive(false);
     }
 
     private void Update()
@@ -51,12 +55,15 @@ public class AREventManager : MonoBehaviour
             planeDetectPanel.SetActive(false);
             placingPanel.SetActive(false);
             markerPanel.SetActive(true);
-
+            arShapeBuilder.markerPointIndicator.SetActive(true);
+            arPlacementManager.placementIndicator.SetActive(false);
             arShapeBuilder.enabled = true;
             arPlacementManager.enabled = false;
         }
         if (stateChecker == "Placing")
         {
+            arShapeBuilder.markerPointIndicator.SetActive(false);
+            arPlacementManager.placementIndicator.SetActive(true);
             planeDetectPanel.SetActive(false);
             markerPanel.SetActive(false);
             placingPanel.SetActive(true);

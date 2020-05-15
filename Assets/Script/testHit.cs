@@ -7,6 +7,7 @@ public class testHit : MonoBehaviour
 {
     public GameObject placementPrefab;
     public GameObject baseIndicator;
+    public LineRenderer lineRend, wasRend;
 
     private GameObject[] placedPrefabs;
     private GameObject lastSelectedPrefab;
@@ -21,6 +22,7 @@ public class testHit : MonoBehaviour
 
     Button doneButton;
 
+    RaycastHit hit;
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,11 +31,29 @@ public class testHit : MonoBehaviour
         doneButton.gameObject.SetActive(false);
         baseIndicator.gameObject.SetActive(false);
     }
+    private void Start()
+    {
 
+    }
     // Update is called once per frame
     void Update()
     {
+
         placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
+        if (Input.GetMouseButtonDown(0))
+        {
+            var myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(myRay, out hit, 100))
+            {
+                if (hit.collider)
+                {
+                    lineRend.positionCount = 2;
+                    lineRend.SetPosition(0, new Vector3(-3, -0.61f, -1));
+                    lineRend.SetPosition(1, Input.mousePosition);
+                }
+            }
+        }
 
         if (Input.touchCount == 1)
         {
