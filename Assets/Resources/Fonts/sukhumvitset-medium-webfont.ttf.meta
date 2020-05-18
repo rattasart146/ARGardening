@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: e5efcce87ccf14d9c91787cbc5e20370
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sukhumvit Set
+  fontNames:
+  - Sukhumvit Set
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 628f0530ef89249519d88d0a35eb6d6a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

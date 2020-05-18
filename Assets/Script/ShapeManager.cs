@@ -33,7 +33,6 @@ public class ShapeManager : MonoBehaviour
         CreateNewShape();
         barPanel = GameObject.Find("BarPanel");
         planeDetectPanel = GameObject.Find("PlaneDetectPanel");
-        barPanel.SetActive(false);
     }
     // Update is called once per frame
     void Update()
@@ -109,7 +108,7 @@ public class ShapeManager : MonoBehaviour
         float temp = 0;
         for (int i = 0; i < areaCal.Count; i++)
         {
-            Debug.Log($"Pos Point {i} : {areaCal[i].transform.position.x} ,{areaCal[i].transform.position.z}");
+            //Debug.Log($"Pos Point {i} : {areaCal[i].transform.position.x} ,{areaCal[i].transform.position.z}");
             if (i != areaCal.Count - 1)
             {
                 float mulA = areaCal[i].transform.position.x * areaCal[i + 1].transform.position.z;
@@ -125,7 +124,7 @@ public class ShapeManager : MonoBehaviour
         }
         temp *= 0.5f;
         temp = Mathf.Abs(temp);
-        Debug.Log("Area : " + Mathf.Round(temp * 100f) / 100f);
+        //Debug.Log("Area : " + Mathf.Round(temp * 100f) / 100f);
 
     }
 

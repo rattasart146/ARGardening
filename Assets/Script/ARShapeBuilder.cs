@@ -190,6 +190,7 @@ public class ARShapeBuilder : MonoBehaviour
         }
         temp *= 0.5f;
         temp = Mathf.Abs(temp);
+        temp = (temp * 100) / 100;
         calAreaText.text = ($"ขนาดพื้นที่ทั้งหมด {temp} ตร.ม.");
 
     }
