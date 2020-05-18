@@ -13,20 +13,23 @@ public class CardItemManager : MonoBehaviour
     private Button IDButton;
     private Image cardImage;
     private ARPlacementManager m_arPlacementManager;
-
+    private AREventManager m_arEventManager;
     // Detail page ui
     private Image detailImage;
     private Text detailTag, detailName, detailContent, detailPrice;
     private Button selectIdButton;
-    private SliderMenuPanel sliderController;
-
+    private SliderMenuPanel sliderController, sliderControllerDetail;
+    Text text;
     // Start is called before the first frame update
     public DecorationComponent decorationComponent = new DecorationComponent();
 
     private void Awake()
     {
         sliderController = GameObject.Find($"DetailPanel").GetComponent<SliderMenuPanel>();
+        sliderControllerDetail = GameObject.Find($"MenuPanel").GetComponent<SliderMenuPanel>();
         m_arPlacementManager = GetComponent<ARPlacementManager>();
+        m_arEventManager = GetComponent<AREventManager>();
+        //text = GameObject.Find("Canvas/Text").GetComponent<Text>();
     }
 
     void Start()
@@ -72,14 +75,19 @@ public class CardItemManager : MonoBehaviour
                 detailTag.text = decoration.tag;
                 detailName.text = decoration.title;
                 detailContent.text = decoration.content;
+                Debug.Log(decoration.ojectName);
                 detailPrice.text = $"{decoration.price}฿";
-                selectIdButton.onClick.AddListener(() => m_arPlacementManager.ChangePrefabSelection(decoration.ojectName));
+                selectIdButton.onClick.AddListener(() => SelectDataFromClick(decoration.ojectName));
             }
         }
     }
 
-    private void testObject(string iD)
+    private void SelectDataFromClick(string objectName)
     {
-        Debug.Log(iD);
+        //text.text = iD;
+        sliderController.ShowHideMenu();
+        sliderControllerDetail.ShowHideMenu();
+        m_arEventManager.processChecker("Placing");
+        m_arPlacementManager.ChangePrefabSelection(objectName);
     }
 }

@@ -9,6 +9,7 @@ public class AREventManager : MonoBehaviour
     private ARPlaneManager arPlaneManager;
     private ARShapeBuilder arShapeBuilder;
     private ARPlacementManager arPlacementManager;
+    private ARObjectManipulation arObjectManipulation;
     private string stateChecker = "Start";
     Button completeMarkButton, placeButton, doneButton;
     Text startButtonText, debugText;
@@ -18,27 +19,25 @@ public class AREventManager : MonoBehaviour
     {
         arPlaneManager = GetComponent<ARPlaneManager>();
         arShapeBuilder = GetComponent<ARShapeBuilder>();
+        arPlacementManager = GetComponent<ARPlacementManager>();
+        arObjectManipulation = GetComponent<ARObjectManipulation>();
         //startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
         completeMarkButton = GameObject.Find("CompleteMarkButton").GetComponent<Button>();
-
+        
 
         markerPanel = GameObject.Find("MarkerPanel");
         placingPanel = GameObject.Find("PlacingPanel");
         selectingPanel = GameObject.Find("SelectingPanel");
         manipulationPanel = GameObject.Find("ManipulationPanel");
         planeDetectPanel = GameObject.Find("PlaneDetectPanel");
+
         markerPanel.SetActive(false);
         placingPanel.SetActive(false);
         manipulationPanel.SetActive(false);
         selectingPanel.SetActive(false);
+
         arShapeBuilder.markerPointIndicator.SetActive(false);
         arPlacementManager.placementIndicator.SetActive(false);
-    }
-
-    private void Start()
-    {
-        arShapeBuilder.enabled = false;
-        arPlacementManager.enabled = false;
     }
 
     private void Update()
@@ -59,14 +58,16 @@ public class AREventManager : MonoBehaviour
 
         if (stateChecker == "Marking")
         {
+            planeDetectPanel.SetActive(false);
             arShapeBuilder.markerPointIndicator.SetActive(true);
             arShapeBuilder.enabled = true;
-            planeDetectPanel.SetActive(false);
             placingPanel.SetActive(false);
             markerPanel.SetActive(true);
             selectingPanel.SetActive(false);
             arPlacementManager.placementIndicator.SetActive(false);
+
             arPlacementManager.enabled = false;
+            arObjectManipulation.enabled = false;
         }
         if (stateChecker == "Selecting")
         {
@@ -79,6 +80,7 @@ public class AREventManager : MonoBehaviour
 
             arShapeBuilder.enabled = false;
             arPlacementManager.enabled = false;
+            arObjectManipulation.enabled = true;
         }
         if (stateChecker == "Placing")
         {
@@ -91,6 +93,7 @@ public class AREventManager : MonoBehaviour
 
             arShapeBuilder.enabled = false;
             arPlacementManager.enabled = true;
+            arObjectManipulation.enabled = true;
         }
         
     }

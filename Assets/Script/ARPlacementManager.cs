@@ -33,7 +33,7 @@ public class ARPlacementManager : MonoBehaviour
     private float speed = 15;
 
     //Ui
-    Text debugText;
+    public Text debugText;
 
     private void Awake()
     {
@@ -62,136 +62,11 @@ public class ARPlacementManager : MonoBehaviour
             placementIndicator.SetActive(false);
         }
 
-        if (Input.touchCount == 1)
-        {
-            Touch singleTouch = Input.GetTouch(0);
-
-            touchPosition = singleTouch.position;
-            Debug.Log("Touched");
-            if (singleTouch.phase == TouchPhase.Began)
-            {
-                placePrefabRay = arCamera.ScreenPointToRay(singleTouch.position);
-
-                if (doneStateCheck == "default")
-                {
-                    if (Physics.Raycast(placePrefabRay, out placePrefabHit))
-                    {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
-                        {
-                            lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
-                            debugText.text = lastSelectedPrefab.transform.name + " was Selected";
-                            if (lastSelectedPrefab != null)
-                            {
-                                foreach (GameObject placementObject in placedPrefabs)
-                                {
-                                    objectSelection = placementObject == lastSelectedPrefab; //check object was hit
-                                    Debug.Log("object selection : " + objectSelection);
-                                    if (objectSelection)
-                                    {
-                                        //do anything when object was selected
-                                        selectTarget = lastSelectedPrefab.transform.position + selectingPos;
-                                        placeTarget = lastSelectedPrefab.transform.position;
-                                        debugText.text = "selectTarget : " + selectTarget;
-                                        baseIndicator.transform.position = lastSelectedPrefab.transform.position;
-                                        doneStateCheck = "Start";
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (doneStateCheck == "Active")
-                {
-                    if (Physics.Raycast(placePrefabRay, out placePrefabHit))
-                    {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
-                        {
-                            var activeSelectedPrefab = placePrefabHit.transform.parent.gameObject;
-                            //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
-                            if (lastSelectedPrefab != null)
-                            {
-                                objectSelection = activeSelectedPrefab == lastSelectedPrefab; //check object was hit
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (singleTouch.phase == TouchPhase.Ended)
-            {
-                objectSelection = false;
-            }
-
-
-            if (doneStateCheck == "Active")
-            {
-                if (objectSelection)
-                {
-                    selectPrefabRay = arCamera.ScreenPointToRay(singleTouch.position);
-                    if (Physics.Raycast(selectPrefabRay, out selectPrefabHit))
-                    {
-                        if (selectPrefabHit.collider.name == "AreaMesh")
-                        {
-                            debugText.text = "happen1";
-                            baseIndicator.transform.position = selectPrefabHit.point;
-                            lastSelectedPrefab.transform.position = selectPrefabHit.point + selectingPos; //auto increase y pose
-                            selectTarget = lastSelectedPrefab.transform.position;
-                            placeTarget = lastSelectedPrefab.transform.position - selectingPos;
-                            //Debug.Log(selectPrefabHit.point + new Vector3(0, selectTarget.y, 0));
-                            debugText.text = "happen2";
-                        }
-                    }
-                }
-            }
-        }
-
-        if (doneStateCheck == "Start")
-        {
-            lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, selectTarget, Time.deltaTime * speed);
-            if (lastSelectedPrefab.transform.position == selectTarget)
-            {
-                doneStateCheck = "Active";
-            }
-        }
-        if (doneStateCheck == "Active")
-        {
-            baseIndicator.gameObject.SetActive(true);
-            arEventManager.manipulationPanel.SetActive(true);
-            arEventManager.placingPanel.SetActive(false);
-            if (Input.touchCount == 2)
-            {
-                Touch touch0 = Input.GetTouch(0);
-                Touch touch1 = Input.GetTouch(1);
-
-                if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
-                {
-                    var v2 = touch1.position - touch0.position;
-                    var newAngle = Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
-                    var realAngle = new Vector3(0, lastSelectedPrefab.transform.rotation.y - newAngle, 0);
-                    //Debug.Log("newAngle : " + newAngle);
-                    //Debug.Log("lastPrefab : " + lastSelectedPrefab.transform.rotation.y);
-                    //Debug.Log("realAngle : " + realAngle.y);
-
-                    lastSelectedPrefab.transform.localEulerAngles = realAngle;
-                    baseIndicator.transform.localEulerAngles = realAngle;
-                }
-            }
-        }
-        if (doneStateCheck == "End")
-        {
-            lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, placeTarget, Time.deltaTime * speed);
-            if (lastSelectedPrefab.transform.position == placeTarget)
-            {
-                doneStateCheck = "default";
-                arEventManager.manipulationPanel.SetActive(false);
-                baseIndicator.gameObject.SetActive(false);
-            }
-        }
     }
 
     public void ChangePrefabSelection(string name)
     {
+
         loadedGameObject = Resources.Load<GameObject>($"Prefabs/{name}");
         if (loadedGameObject != null)
         {
@@ -239,13 +114,6 @@ public class ARPlacementManager : MonoBehaviour
     {
         var halfObjectSizePosition = PlacementPose.y + (placementPrefab.GetComponent<Renderer>().bounds.size.y / 2);
         PlacementPose = new Vector3(PlacementPose.x, halfObjectSizePosition, PlacementPose.z);
-    }
-
-    public void doneState()
-    {
-        objectSelection = false;
-        Debug.Log(objectSelection);
-        doneStateCheck = "End";
     }
 
     void SetAllPlanesActive(bool value)

@@ -1086,6 +1086,7 @@ GameObject:
   - component: {fileID: 1245171120}
   - component: {fileID: 1245171121}
   - component: {fileID: 1245171119}
+  - component: {fileID: 1245171122}
   m_Layer: 0
   m_Name: Shape Builder
   m_TagString: Untagged
@@ -1224,6 +1225,23 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 1
+--- !u!114 &1245171122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245171118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0afa45fa231a74255907f606ecbe57db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPanel: {fileID: 3722333524851655078, guid: d1e516ea568c7460fb607d9c43663ec1,
+    type: 3}
+  cardParent: {fileID: 6799958450961626155}
+  decorationComponent:
+    Decoration: []
 --- !u!1 &1477578261
 GameObject:
   m_ObjectHideFlags: 0
@@ -2200,7 +2218,6 @@ GameObject:
   - component: {fileID: 6799958450961626153}
   - component: {fileID: 6799958450961626154}
   - component: {fileID: 6799958450961626159}
-  - component: {fileID: 6799958450961626158}
   m_Layer: 5
   m_Name: CardParentPanel
   m_TagString: Untagged
@@ -2287,23 +2304,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 937, y: 0}
   m_Pivot: {x: 0, y: 1.0000001}
---- !u!114 &6799958450961626158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6799958450961626148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afa45fa231a74255907f606ecbe57db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardPanel: {fileID: 3722333524851655078, guid: d1e516ea568c7460fb607d9c43663ec1,
-    type: 3}
-  cardParent: {fileID: 6799958450961626155}
-  decorationComponent:
-    Decoration: []
 --- !u!114 &6799958450961626159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,29 +2751,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8400055834464911941}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8400055834518616374}
-        m_MethodName: ShowHideMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6799958451076183929}
-        m_MethodName: ShowHideMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &8400055834464911941
 MonoBehaviour:
   m_ObjectHideFlags: 0

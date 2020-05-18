@@ -25,7 +25,7 @@ public class ARShapeBuilder : MonoBehaviour
     public MeshCollider meshCollider;
 
     Vector2 touchPosition;
-    private ARRaycastManager _arRaycastManager;
+    private ARRaycastManager r_arRaycastManager;
     private Ray mpIndicatorRay;
     private RaycastHit mpIndicatorHit;
     private Quaternion markerPointRotaion;
@@ -42,7 +42,7 @@ public class ARShapeBuilder : MonoBehaviour
     private void Awake()
     {
         calAreaText = GameObject.Find("CalAreaText").GetComponent<Text>();
-        _arRaycastManager = GetComponent<ARRaycastManager>();
+        r_arRaycastManager = GetComponent<ARRaycastManager>();
         lineRender = GetComponent<LineRenderer>();
 
         Debug.Log("Index :" + shapes.Count);
@@ -89,7 +89,7 @@ public class ARShapeBuilder : MonoBehaviour
             }
         }
 
-        if (_arRaycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
+        if (r_arRaycastManager.Raycast(touchPosition, hits, TrackableType.Planes))
         {
             Pose hitPose = hits[0].pose;
             if (markSelection)
@@ -109,7 +109,7 @@ public class ARShapeBuilder : MonoBehaviour
         var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
 
 
-        if (_arRaycastManager.Raycast(mpIndicatorRay, s_Hits, TrackableType.Planes))
+        if (r_arRaycastManager.Raycast(mpIndicatorRay, s_Hits, TrackableType.Planes))
         {
             var hitPose = s_Hits[0].pose;
 
