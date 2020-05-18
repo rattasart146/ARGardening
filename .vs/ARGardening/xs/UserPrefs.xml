@@ -1,13 +1,12 @@
 ﻿<Properties StartupConfiguration="{28698A75-7B98-7660-465B-7989F90A4D6E}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/ARObjectManipulation.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/UI Controller/PlaneScaleCamera.cs">
     <Files>
-      <File FileName="Assets/Script/ARPlacementManager.cs" Line="192" Column="1" />
+      <File FileName="Assets/Script/ARPlacementManager.cs" Line="117" Column="6" />
       <File FileName="Assets/Script/ARShapeBuilder.cs" Line="112" Column="31" />
       <File FileName="Assets/Resources/Decoration.json" Line="1" Column="1" />
-      <File FileName="Assets/Script/AREventManager.cs" Line="42" Column="6" NotebookId="1" />
+      <File FileName="Assets/Script/AREventManager.cs" Line="70" Column="49" NotebookId="1" />
       <File FileName="Assets/Script/UI Controller/CardItemManager.cs" Line="90" Column="52" NotebookId="1" />
-      <File FileName="Assets/Script/ShapeManager.cs" Line="131" Column="39" NotebookId="1" />
-      <File FileName="Assets/Script/ARObjectManipulation.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Script/UI Controller/PlaneScaleCamera.cs" Line="28" Column="63" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
