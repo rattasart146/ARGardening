@@ -171,4 +171,12 @@ public class testHit : MonoBehaviour
         Debug.Log(objectSelection);
         doneStateCheck = "End";
     }
+
+    public void destroyObject2()
+    {
+        doneButton.gameObject.SetActive(false);
+        baseIndicator.gameObject.SetActive(false);
+        Destroy(lastSelectedPrefab);
+        doneStateCheck = "End";
+    }
 }

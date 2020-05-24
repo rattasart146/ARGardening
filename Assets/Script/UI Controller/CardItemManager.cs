@@ -109,8 +109,6 @@ public class CardItemManager : MonoBehaviour
         var totalPricing = 0;
         var totalPricingByOrder = 0;
         var amountCounting = 0;
-        var amountIndex = 0;
-        string resultString;
         decorationPrefabs = GameObject.FindGameObjectsWithTag("Decoration"); //Pull data from "Decoration" Tag
 
         foreach (Decoration decoration in decorationComponent.Decoration)

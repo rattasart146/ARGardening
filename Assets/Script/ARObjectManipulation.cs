@@ -161,8 +161,17 @@ public class ARObjectManipulation : MonoBehaviour
         }
         if (doneStateCheck == "End")
         {
-            lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, placeTarget, Time.deltaTime * speed);
-            if (lastSelectedPrefab.transform.position == placeTarget)
+            if (lastSelectedPrefab != null)
+            {
+                lastSelectedPrefab.transform.position = Vector3.Lerp(lastSelectedPrefab.transform.position, placeTarget, Time.deltaTime * speed);
+                if (lastSelectedPrefab.transform.position == placeTarget)
+                {
+                    doneStateCheck = "default";
+                    arEventManager.manipulationPanel.SetActive(false);
+                    baseIndicator.gameObject.SetActive(false);
+                }
+            }
+            else
             {
                 doneStateCheck = "default";
                 arEventManager.manipulationPanel.SetActive(false);
@@ -180,7 +189,9 @@ public class ARObjectManipulation : MonoBehaviour
 
     public void destroyObject()
     {
+        objectSelection = false;
         Destroy(lastSelectedPrefab);
+        doneStateCheck = "End";
     }
 
     void SetAllPlanesActive(bool value)
