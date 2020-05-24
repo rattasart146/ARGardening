@@ -19,28 +19,18 @@ public class ARPlacementManager : MonoBehaviour
 
     private Quaternion PlacementRotaion;
     private GameObject[] placedPrefabs;
-    private GameObject lastSelectedPrefab;
-    private bool objectSelection = false;
     private Ray indicatorRay, placePrefabRay, selectPrefabRay;
     private RaycastHit indicatorHit, placePrefabHit, selectPrefabHit;
-    private Vector2 touchPosition = default;
     private Vector3 PlacementPose;
-    private Vector3 selectingPos = new Vector3(0, 0.1f, 0);
-    private Vector3 selectTarget = new Vector3(0, 0, 0);
-    private Vector3 placeTarget = new Vector3(0, 0, 0);
     private GameObject loadedGameObject;
     private string doneStateCheck = "default";
-    private float speed = 15;
 
-    //Ui
-    public Text debugText;
 
     private void Awake()
     {
         _arRaycastManager = GetComponent<ARRaycastManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
         arEventManager = GetComponent<AREventManager>();
-        debugText = GameObject.Find("DebugText").GetComponent<Text>();
 
         baseIndicator.gameObject.SetActive(false);
     }
@@ -71,7 +61,6 @@ public class ARPlacementManager : MonoBehaviour
         if (loadedGameObject != null)
         {
             placementPrefab = loadedGameObject;
-            debugText.text = placementPrefab.name + " was Active";
         }
         else
         {
@@ -81,7 +70,6 @@ public class ARPlacementManager : MonoBehaviour
 
     public void PlaceObject()
     {
-        debugText.text = placementPrefab.name + " was placed";
         //Create Clone Object ----- try  to  change -----
         var Index = placedPrefabs.Length;
         GameObject placeObject = Instantiate(placementPrefab, PlacementPose, PlacementRotaion);

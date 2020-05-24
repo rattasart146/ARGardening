@@ -2,30 +2,84 @@
     "Decoration": [
         {
             "ID": "P01",
-            "title": "Ficus",
-            "thumbnail": "circle.png",
+            "title": "ไผ่กวนอิม",
+            "thumbnail": "LuckyBamboo.png",
             "tag": "Plants",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras porta, turpis eu feugiat pellentesque, dolor tortor consectetur ex, egestas tristique libero ante vitae tellus. Praesent turpis libero",
-            "price": 999,
-            "ojectName": "Ficus-audrey"
+            "content": "ไผ่กวนอิม เป็นพันธุ์ไม้อีกชนิดที่ซื้อหาได้ง่าย ขนาดไม่ใหญ่เทอะทะ ดูแลง่าย และมีชื่อที่เป็นมงคล จึงทำให้มันเป็นที่นิยมอย่างมากในการนำมาตกแต่งและเสริมฮวงจุ้ยทั้งในบ้านและที่ทำงาน โดยในทาง ฮวงจุ้ย นั้น ไผ่กวนอิมช่วยดึงดูดความสงบและความเฉลียวฉลาดมาสู่คนที่อาศัยอยู่ในบ้าน อีกทั้งยังช่วยเปิดจิตวิญญาณภายในให้มีความยืดหยุ่นเป็นอิสระ ทำให้พลังชี่สามารถไหลผ่านเข้าไปบำรุงรักษาในร่างกายได้อย่างง่ายดาย",
+            "price": 150,
+            "ojectName": "LuckyBamboo"
         },
         {
             "ID": "P02",
-            "title": "Maya",
-            "thumbnail": "tree.png",
+            "title": "สับปะรดสี",
+            "thumbnail": "UrnPlant.png",
             "tag": "Plants",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras porta, turpis eu feugiat pellentesque, dolor tortor consectetur ex, egestas tristique libero ante vitae tellus. Praesent turpis libero",
-            "price": 333,
-            "ojectName": "Cube"
+            "content": " สับปะรดสีเป็นพันธุ์ไม้ประดับที่มีลักษณะเป็นกลีบและแข็ง แผ่ออกรอบๆ บนใบมีลวดลายและสีสันที่สวยงามแตกต่างกันขึ้นอยู่กับชนิดพันธุ์ เป็นไม้ที่เจริญเติบโตช้าแต่ดูแลง่าย สามารถทนแล้งได้ดี มีช่อดอกที่ยาวสูง สีของกลีบดอก กลีบเลี้ยง และใบจะคงอยู่นานหลายสัปดาห์หรือหลายเดือน และจะงอกต้นเล็กๆ ออกมารอบๆต้น สามารถตัดไปปลูกได้",
+            "price": 175,
+            "ojectName": "UrnPlant"
         },
         {
-            "ID": "D03",
-            "title": "ชั้นวางอเนกประสงค์",
-            "thumbnail": "tree.png",
+            "ID": "P03",
+            "title": "ว่านหางจระเข้แคระ",
+            "thumbnail": "SmallAloeVera.png",
             "tag": "Plants",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras porta, turpis eu feugiat pellentesque, dolor tortor consectetur ex, egestas tristique libero ante vitae tellus. Praesent turpis libero",
-            "price": 250,
-            "ojectName": "Box"
+            "content": "เป็นว่านหางจระเข้สายพันธุ์หนึ่งซึ่งเป็นไม้อวบน้ำ มีหนามอ่อนที่ขอบใบและกลางใบ สามารถนำไปจัดสวนถาดได้ ปลูกเลี้ยงง่าย ทนแล้ง ไม่ชอบแฉะ",
+            "price": 30,
+            "ojectName": "SmallAloeVera"
+        },
+        {
+            "ID": "P04",
+            "title": "แก้วแคระ",
+            "thumbnail": "CosmeticBarkTree.png",
+            "tag": "Plants",
+            "content": "\"\"ต้นแก้วแคระอินโด\" หรือ \"แก้วแคระมหามงคล\"   มีลักษณะใบกลมรี เล็ก ละเอียด เงามัน เป็นไม้พุ่มแน่น มีลักษณะพุ่มกลม หรือใกล้เคียงทรงกลม เป็นไม้แคระ โตช้า เหมาะสำหรับทำบอนไซ จะนำไปดัดเข้าลวด หรือ จะตัดแต่งเป็นพุ่มกลม รูปทรงต่าง ๆ หรือไม่ก็ได้ ตามความชอบส่วนบุคคล แต่หากต้องการเพาะเลี้ยงไว้ เพื่อชมความงามของดอกแก้วสายพันธุ์นี้ เป็นที่รู้กันว่าออกดอกยากมาก ๆ และอาจจะไม่มีโอกาสได้เห็นบ่อยนัก เพราะเนื่องจากความแคระของต้น ทำให้ติดดอกตูมยังไม่ทันบาน ดอกก็ร่วงโรยหมด\"",
+            "price": 100,
+            "ojectName": "CosmeticBarkTree"
+        },
+        {
+            "ID": "P05",
+            "title": "บัวดอย",
+            "thumbnail": "AspidistraElatior.png",
+            "tag": "Plants",
+            "content": "บัวดอย หรือ ผู้เฒ่าลืมไม้เท้า ต้นนี้เติบโตได้ดีในที่ร่ม ที่ที่มีความร้อน และที่ที่มีความเย็น ใบ ออกเป็นกระจุกบริเวณโคนต้น รูปใบรี ก้านใบยาว 30-50 ซม. ใบเป็นใบเดี่ยว โคนก้านใบมีกาบหุ้ม ปลายใบเรียวแหลม ฐานใบสอบ ก้านใบเป็นร่องด้านบน ขนาดแผ่นใบ กว้าง 5-10 ซม. ยาว 30-40 ซม. เนื้อใบหนาคล้ายแผ่นหนัง แผ่นใบเกลี้ยงทั้งสองด้าน ขอบใบมีหนามเล็กน้อย",
+            "price": 120,
+            "ojectName": "AspidistraElatior"
+        },
+        {
+            "ID": "P06",
+            "title": "หมากเหลือง",
+            "thumbnail": "SmallAloeVera.png",
+            "tag": "Plants",
+            "content": "หมากเหลือง เป็นไม้ประดับภายในอาคารที่เป็นที่นิยมมากชนิดหนึ่ง เพราะมีความสวยงาม มีความทนต่อสภาพแวดล้อมภายในอาคารและคายความชื้นให้แก่อากาศภายในห้องได้เป็นจำนวนมาก ในขณะที่มีประสิทธิภาพสูงในการดูดสารพิษจากอากาศได้ในปริมาณมากเช่นกัน หมากเหลืองเป็นพืชตระกูลปาล์มที่ปลูกง่าย โตเร็ว เป็นพันธุ์ไม้ขนาดกลาง สูงประมาณ 5–10 เมตร",
+            "price": 189,
+            "ojectName": "ArecaPalm"
+        },
+        {
+            "ID": "P07",
+            "title": "ลิ้นมังกร",
+            "thumbnail": "SmallAloeVera.png",
+            "tag": "Plants",
+            "content": "ลิ้นมังกรเป็นไม้ล้มลุก อายุหลายปี มีเหง้าทอดเลื้อยไปตามผิวดิน เห็นข้อปล้องชัดเจน ทุกส่วนของต้นอวบน้ำ เปราะหักง่าย มีใบเดี่ยว ออกเวียนสลับรอบต้น หรือเรียงสลับระนาบเดียว รูปใบมีหลายแบบ ทั้งรูปใบหอก รูปแถบกว้าง รูปไข่กลับ รูปช้อน รูปรี และเป็นแท่งกลมยาว ขนาดแตกต่างกันตั้งแต่ 3 เซนติเมตรจนยาวกว่า 1 เมตร แผ่นใบหนาอวบน้ำ ขอบใบเรียบเป็นสันแข็งหรือเป็นคลื่น มีสีสันและลวดลายแตกต่างกัน บางชนิดมีเส้นใยเหนียวที่ใช้ทำเชือก",
+            "price": 289,
+            "ojectName": "SnakePlant"
+        },
+        {
+            "ID": "P08",
+            "title": "สาวน้อยประแป้ง",
+            "thumbnail": "DumbCane.png",
+            "tag": "Plants",
+            "content": "สาวน้อยประแป้ง (Dumb Cane) สาวน้อยประแป้ง เป็นพันธุ์ไม้ที่นิยมปลูกลงกระถางเป็นไม้ประดับตามอาคารมาจนชินตา เพราะดูแลง่ายและใบใหญ่ลวดลายสวยงาม สามารถอยู่ในที่ที่แสงแดดน้อยได้ ควรรดน้ำวันเว้นวัน และหมั่นเช็ดใบให้สะอาดเป็นเงา เพื่อคุณสมบัติในการคายความชื้นและดูดสารพิษได้เต็มที่",
+            "price": 290,
+            "ojectName": "DumbCane"
+        },
+        {
+            "ID": "P09",
+            "title": "Ficus Audrey",
+            "thumbnail": "FicusAudrey.png",
+            "tag": "Plants",
+            "content": "\"The Ficus \"Audrey\" (Ficus benghalensis) has a striking, minimalist aesthetic, with deep green velvet leaves and a white trunk that thickens as the plant matures. Care for the Ficus Audreyis on the easier side for ficuses: it appreciates bright, indirect light and regular waterings with a dry-out period in between\"",
+            "price": 1200,
+            "ojectName": "FicusAudrey"
         }
     ]
 }

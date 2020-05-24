@@ -11,8 +11,6 @@ public class AREventManager : MonoBehaviour
     private ARPlacementManager arPlacementManager;
     private ARObjectManipulation arObjectManipulation;
     private string stateChecker = "Start";
-    Button completeMarkButton, placeButton, doneButton;
-    Text startButtonText, debugText;
     public GameObject markerPanel, planeDetectPanel, selectingPanel, placingPanel, manipulationPanel;
     // Start is called before the first frame update
     void Awake()
@@ -22,7 +20,6 @@ public class AREventManager : MonoBehaviour
         arPlacementManager = GetComponent<ARPlacementManager>();
         arObjectManipulation = GetComponent<ARObjectManipulation>();
         //startButtonText = GameObject.Find("StartButtonText").GetComponent<Text>();
-        completeMarkButton = GameObject.Find("CompleteMarkButton").GetComponent<Button>();
         
 
         markerPanel = GameObject.Find("MarkerPanel");

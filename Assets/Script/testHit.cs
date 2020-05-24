@@ -7,7 +7,6 @@ public class testHit : MonoBehaviour
 {
     public GameObject placementPrefab;
     public GameObject baseIndicator;
-    public LineRenderer lineRend, wasRend;
 
     private GameObject[] placedPrefabs;
     private GameObject lastSelectedPrefab;
@@ -40,20 +39,6 @@ public class testHit : MonoBehaviour
     {
 
         placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
-        if (Input.GetMouseButtonDown(0))
-        {
-            var myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(myRay, out hit, 100))
-            {
-                if (hit.collider)
-                {
-                    lineRend.positionCount = 2;
-                    lineRend.SetPosition(0, new Vector3(-3, -0.61f, -1));
-                    lineRend.SetPosition(1, Input.mousePosition);
-                }
-            }
-        }
 
         if (Input.touchCount == 1)
         {
@@ -67,9 +52,10 @@ public class testHit : MonoBehaviour
                 {
                     if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                     {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                        Debug.Log(placePrefabHit.collider.transform.root.name);
+                        if (placePrefabHit.collider.transform.root.tag == "Decoration")
                         {
-                            lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
+                            lastSelectedPrefab = placePrefabHit.transform.root.gameObject;
                             //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
                             if (lastSelectedPrefab != null)
                             {
@@ -95,9 +81,9 @@ public class testHit : MonoBehaviour
                 {
                     if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                     {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                        if (placePrefabHit.collider.transform.root.tag == "Decoration")
                         {
-                            var activeSelectedPrefab = placePrefabHit.transform.parent.gameObject;
+                            var activeSelectedPrefab = placePrefabHit.transform.root.gameObject;
                             //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
                             if (lastSelectedPrefab != null)
                             {

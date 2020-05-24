@@ -30,15 +30,12 @@ public class ARObjectManipulation : MonoBehaviour
     private string doneStateCheck = "default";
     private float speed = 15;
 
-    //Ui
-    public Text debugText;
 
     private void Awake()
     {
         _arRaycastManager = GetComponent<ARRaycastManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
         arEventManager = GetComponent<AREventManager>();
-        debugText = GameObject.Find("DebugText").GetComponent<Text>();
 
         baseIndicator.gameObject.SetActive(false);
     }
@@ -63,10 +60,9 @@ public class ARObjectManipulation : MonoBehaviour
                 {
                     if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                     {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                        if (placePrefabHit.collider.transform.root.tag == "Decoration")
                         {
-                            lastSelectedPrefab = placePrefabHit.transform.parent.gameObject;
-                            debugText.text = lastSelectedPrefab.transform.name + " was Selected";
+                            lastSelectedPrefab = placePrefabHit.transform.root.gameObject;
                             if (lastSelectedPrefab != null)
                             {
                                 foreach (GameObject placementObject in placedPrefabs)
@@ -78,7 +74,6 @@ public class ARObjectManipulation : MonoBehaviour
                                         //do anything when object was selected
                                         selectTarget = lastSelectedPrefab.transform.position + selectingPos;
                                         placeTarget = lastSelectedPrefab.transform.position;
-                                        debugText.text = "selectTarget : " + selectTarget;
                                         baseIndicator.transform.position = lastSelectedPrefab.transform.position;
                                         doneStateCheck = "Start";
                                         break;
@@ -92,9 +87,9 @@ public class ARObjectManipulation : MonoBehaviour
                 {
                     if (Physics.Raycast(placePrefabRay, out placePrefabHit))
                     {
-                        if (placePrefabHit.collider.transform.parent.tag == "Decoration")
+                        if (placePrefabHit.collider.transform.root.tag == "Decoration")
                         {
-                            var activeSelectedPrefab = placePrefabHit.transform.parent.gameObject;
+                            var activeSelectedPrefab = placePrefabHit.transform.root.gameObject;
                             //debugText.text = lastSelectedPrefab.transform.name + " was Selected";
                             if (lastSelectedPrefab != null)
                             {
@@ -120,13 +115,11 @@ public class ARObjectManipulation : MonoBehaviour
                     {
                         if (selectPrefabHit.collider.name == "AreaMesh")
                         {
-                            debugText.text = "happen1";
                             baseIndicator.transform.position = selectPrefabHit.point;
                             lastSelectedPrefab.transform.position = selectPrefabHit.point + selectingPos; //auto increase y pose
                             selectTarget = lastSelectedPrefab.transform.position;
                             placeTarget = lastSelectedPrefab.transform.position - selectingPos;
                             //Debug.Log(selectPrefabHit.point + new Vector3(0, selectTarget.y, 0));
-                            debugText.text = "happen2";
                         }
                     }
                 }
@@ -183,6 +176,11 @@ public class ARObjectManipulation : MonoBehaviour
         objectSelection = false;
         Debug.Log(objectSelection);
         doneStateCheck = "End";
+    }
+
+    public void destroyObject()
+    {
+        Destroy(lastSelectedPrefab);
     }
 
     void SetAllPlanesActive(bool value)
