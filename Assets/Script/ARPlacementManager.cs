@@ -25,13 +25,13 @@ public class ARPlacementManager : MonoBehaviour
     private GameObject loadedGameObject;
     private string doneStateCheck = "default";
 
+    private string selectionImgValue;
 
     private void Awake()
     {
         _arRaycastManager = GetComponent<ARRaycastManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
         arEventManager = GetComponent<AREventManager>();
-
         baseIndicator.gameObject.SetActive(false);
     }
 
@@ -51,7 +51,6 @@ public class ARPlacementManager : MonoBehaviour
         {
             placementIndicator.SetActive(false);
         }
-
     }
 
     public void ChangePrefabSelection(string name)
@@ -61,11 +60,18 @@ public class ARPlacementManager : MonoBehaviour
         if (loadedGameObject != null)
         {
             placementPrefab = loadedGameObject;
+            selectionImgValue = name;
         }
         else
         {
             Debug.Log($"Unable to find a game object with name {name}");
         }
+
+    }
+
+    public string getSelectionData()
+    {
+        return selectionImgValue;
     }
 
     public void PlaceObject()

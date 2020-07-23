@@ -24,6 +24,7 @@ public class CardItemManager : MonoBehaviour
     public Transform resultParent;
     private Text item, amount, price, totalPrice;
     private List<string> resultList = new List<string>();
+    private GameObject resultPanelInst;
 
     private GameObject[] decorationPrefabs;
 
@@ -38,6 +39,13 @@ public class CardItemManager : MonoBehaviour
         m_arPlacementManager = GetComponent<ARPlacementManager>();
         m_arEventManager = GetComponent<AREventManager>();
         //text = GameObject.Find("Canvas/Text").GetComponent<Text>();
+
+    }
+
+    private void LateUpdate()
+    {
+
+        ShowResult();
     }
 
     void Start()
@@ -119,10 +127,9 @@ public class CardItemManager : MonoBehaviour
                 {
                     if (!resultList.Contains(decoration.ojectName))
                     {
-                        resultPanel = Instantiate(resultPanel, resultParent);
-                        resultPanel.transform.name = decoration.ojectName;
-                        resultList.Add(resultPanel.name);
-
+                        resultPanelInst = Instantiate(resultPanel, resultParent);
+                        resultPanelInst.transform.name = decoration.ojectName;
+                        resultList.Add(resultPanelInst.name);
                         item = GameObject.Find($"ItemListParent/{decoration.ojectName}/Item").GetComponent<Text>();
                         amount = GameObject.Find($"ItemListParent/{decoration.ojectName}/Amount").GetComponent<Text>();
                         price = GameObject.Find($"ItemListParent/{decoration.ojectName}/Price").GetComponent<Text>();
@@ -140,45 +147,4 @@ public class CardItemManager : MonoBehaviour
             amountCounting = 0; 
         }
     }
-    //public void ShowResult()
-    //{
-    //    var totalPricing = 0;
-    //    var totalPricingByOrder = 0;
-    //    var amountCounting = 0;
-    //    var resultIndex = 0;
-    //    decorationPrefabs = GameObject.FindGameObjectsWithTag("Decoration"); //Pull data from "Decoration" Tag
-
-    //    foreach (Decoration decoration in decorationComponent.Decoration)
-    //    {
-    //        foreach (GameObject placedDecoration in decorationPrefabs)
-    //        {
-    //            if (placedDecoration.transform.name.Contains(decoration.ojectName))
-    //            {
-    //                foreach (Transform child in resultParent)
-    //                {
-    //                    //child is your child transform
-    //                    if (child.transform.name != decoration.ojectName)
-    //                    {
-    //                        resultPanel = Instantiate(resultPanel, resultParent);
-    //                        resultPanel.transform.name = decoration.ojectName;
-
-    //                        item = GameObject.Find($"ItemListParent/{decoration.ojectName}/Item").GetComponent<Text>();
-    //                        amount = GameObject.Find($"ItemListParent/{decoration.ojectName}/Amount").GetComponent<Text>();
-    //                        price = GameObject.Find($"ItemListParent/{decoration.ojectName}/Price").GetComponent<Text>();
-    //                    }
-    //                }
-
-    //                amountCounting++;
-    //                item.text = $"{placedDecoration.transform.name} : {decoration.ojectName} : {resultPanel.transform.name}";//decoration.title;
-    //                totalPricingByOrder = amountCounting * decoration.price;
-    //                totalPricing += decoration.price;
-    //                amount.text = amountCounting.ToString();
-    //                price.text = totalPricingByOrder.ToString();
-    //                totalPrice.text = totalPricing.ToString();
-
-    //            }
-    //        }
-    //        amountCounting = 0;
-    //    }
-    //}
 }

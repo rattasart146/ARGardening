@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Sebastian.Geometry;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.EventSystems;
 
 public class ARShapeBuilder : MonoBehaviour
 {
@@ -62,6 +63,11 @@ public class ARShapeBuilder : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                return;
+            }
+
             Touch touch = Input.GetTouch(0);
 
             touchPosition2 = touch.position;
@@ -190,8 +196,7 @@ public class ARShapeBuilder : MonoBehaviour
         }
         temp *= 0.5f;
         temp = Mathf.Abs(temp);
-        temp = (temp * 100) / 100;
-        calAreaText.text = ($"ขนาดพื้นที่ทั้งหมด {temp} ตร.ม.");
+        calAreaText.text = ($"ขนาดพื้นที่ทั้งหมด {temp.ToString("F2")} ตร.ม.");
 
     }
 

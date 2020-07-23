@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
@@ -48,6 +49,11 @@ public class ARObjectManipulation : MonoBehaviour
 
         if (Input.touchCount == 1)
         {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                return;
+            }
+
             Touch singleTouch = Input.GetTouch(0);
 
             touchPosition = singleTouch.position;
@@ -173,9 +179,9 @@ public class ARObjectManipulation : MonoBehaviour
             }
             else
             {
-                doneStateCheck = "default";
-                arEventManager.manipulationPanel.SetActive(false);
-                baseIndicator.gameObject.SetActive(false);
+                    doneStateCheck = "default";
+                    arEventManager.manipulationPanel.SetActive(false);
+                    baseIndicator.gameObject.SetActive(false);
             }
         }
     }
@@ -198,5 +204,14 @@ public class ARObjectManipulation : MonoBehaviour
     {
         foreach (var plane in arPlaneManager.trackables)
             plane.gameObject.SetActive(value);
+    }
+
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
     }
 }

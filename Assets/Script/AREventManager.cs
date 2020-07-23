@@ -11,7 +11,9 @@ public class AREventManager : MonoBehaviour
     private ARPlacementManager arPlacementManager;
     private ARObjectManipulation arObjectManipulation;
     private string stateChecker = "Start";
+    private Image selectionImg;
     public GameObject markerPanel, planeDetectPanel, selectingPanel, placingPanel, manipulationPanel;
+    public GameObject saveButton, captureButton;
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,11 +29,16 @@ public class AREventManager : MonoBehaviour
         selectingPanel = GameObject.Find("SelectingPanel");
         manipulationPanel = GameObject.Find("ManipulationPanel");
         planeDetectPanel = GameObject.Find("PlaneDetectPanel");
+        saveButton = GameObject.Find("SaveResultButton");
+        captureButton = GameObject.Find("CaptureButton");
+        selectionImg = GameObject.Find("SelectionImageBar").GetComponent<Image>();
 
         markerPanel.SetActive(false);
         placingPanel.SetActive(false);
         manipulationPanel.SetActive(false);
         selectingPanel.SetActive(false);
+        saveButton.SetActive(false);
+        captureButton.SetActive(false);
 
         arShapeBuilder.markerPointIndicator.SetActive(false);
         arPlacementManager.placementIndicator.SetActive(false);
@@ -39,6 +46,9 @@ public class AREventManager : MonoBehaviour
 
     private void Update()
     {
+        var decorationObj = GameObject.FindGameObjectsWithTag("Decoration");
+
+        selectionImg.sprite = Resources.Load<Sprite>($"trees/{arPlacementManager.getSelectionData()}");
         if (stateChecker == "Start")
         {
             planeDetectPanel.SetActive(true);
@@ -55,6 +65,7 @@ public class AREventManager : MonoBehaviour
 
         if (stateChecker == "Marking")
         {
+            captureButton.SetActive(false);
             planeDetectPanel.SetActive(false);
             arShapeBuilder.markerPointIndicator.SetActive(true);
             arShapeBuilder.enabled = true;
@@ -68,6 +79,7 @@ public class AREventManager : MonoBehaviour
         }
         if (stateChecker == "Selecting")
         {
+            captureButton.SetActive(true);
             selectingPanel.SetActive(true);
             arShapeBuilder.markerPointIndicator.SetActive(false);
             arPlacementManager.placementIndicator.SetActive(false);
@@ -75,12 +87,23 @@ public class AREventManager : MonoBehaviour
             markerPanel.SetActive(false);
             placingPanel.SetActive(false);
 
+            if (decorationObj != null)
+            {
+                saveButton.SetActive(true);
+            }
+            else
+            {
+                saveButton.SetActive(false);
+            }
+
             arShapeBuilder.enabled = false;
             arPlacementManager.enabled = false;
             arObjectManipulation.enabled = true;
         }
         if (stateChecker == "Placing")
         {
+            captureButton.SetActive(false);
+            captureButton.SetActive(false);
             selectingPanel.SetActive(false);
             arShapeBuilder.markerPointIndicator.SetActive(false);
             arPlacementManager.placementIndicator.SetActive(true);

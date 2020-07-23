@@ -23,21 +23,39 @@ public class testHit : MonoBehaviour
 
     RaycastHit hit;
     // Start is called before the first frame update
+
+    
+
+    public GameObject resultPanel;
+    public Transform resultParent;
+    private Text item, amount, price, totalPrice;
+    private List<string> resultList = new List<string>();
+    private GameObject resultPanelInst;
+
+    private GameObject[] decorationPrefabs;
+
+    // Start is called before the first frame update
+    public DecorationComponent decorationComponents = new DecorationComponent();
     void Awake()
     {
         doneButton = GameObject.Find("DoneButton").GetComponent<Button>();
         doneButton.onClick.AddListener(doneState);
         doneButton.gameObject.SetActive(false);
         baseIndicator.gameObject.SetActive(false);
+
+        totalPrice = GameObject.Find($"TotalPrice/PriceTotal").GetComponent<Text>();
+        //text = GameObject.Find("Canvas/Text").GetComponent<Text>();
     }
     private void Start()
     {
-
+        TextAsset assets = Resources.Load("Decoration") as TextAsset;
+        decorationComponents = JsonUtility.FromJson<DecorationComponent>(assets.text);
     }
     // Update is called once per frame
     void Update()
     {
 
+        ShowResult();
         placedPrefabs = GameObject.FindGameObjectsWithTag("Decoration");
 
         if (Input.touchCount == 1)
@@ -178,5 +196,45 @@ public class testHit : MonoBehaviour
         baseIndicator.gameObject.SetActive(false);
         Destroy(lastSelectedPrefab);
         doneStateCheck = "End";
+    }
+
+    public void ShowResult()
+    {
+        var totalPricing = 0;
+        var totalPricingByOrder = 0;
+        var amountCounting = 0;
+        decorationPrefabs = GameObject.FindGameObjectsWithTag("Decoration"); //Pull data from "Decoration" Tag
+        foreach (Decoration decoration in decorationComponents.Decoration)
+        {
+            foreach (GameObject placedDecoration in decorationPrefabs)
+            {
+                Debug.Log(placedDecoration.name + " : " + decoration.ojectName + " = " + resultList.Contains(decoration.ojectName));
+                Debug.Log(resultList.Contains(decoration.ojectName));
+                if (placedDecoration.transform.name.Contains(decoration.ojectName))
+                {
+                    if (!resultList.Contains(decoration.ojectName))
+                    {
+                        resultPanelInst = Instantiate(resultPanel, resultParent);
+                        resultPanelInst.transform.name = decoration.ojectName;
+                        resultList.Add(resultPanelInst.name);
+                        item = GameObject.Find($"ItemListParent/{decoration.ojectName}/Item").GetComponent<Text>();
+                        amount = GameObject.Find($"ItemListParent/{decoration.ojectName}/Amount").GetComponent<Text>();
+                        price = GameObject.Find($"ItemListParent/{decoration.ojectName}/Price").GetComponent<Text>();
+
+                        Debug.Log("-------------------------------------");
+                    }
+
+
+                    amountCounting++;
+                    item.text = decoration.title;
+                    totalPricingByOrder = amountCounting * decoration.price;
+                    totalPricing += decoration.price;
+                    amount.text = amountCounting.ToString();
+                    price.text = totalPricingByOrder.ToString();
+                    totalPrice.text = totalPricing.ToString();
+                }
+            }
+            amountCounting = 0;
+        }
     }
 }
